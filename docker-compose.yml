@@ -9,22 +9,32 @@ services:
       - POSTGRES_DB=lotto_db
       - POSTGRES_USER=lotto_user
       - POSTGRES_PASSWORD=lotto_password
+    # 외부 정식 배포 시에는 DB 포트를 숨기는 것이 좋으므로 ports는 제외하거나 유지합니다.
     ports:
       - "5432:5432"
 
   web:
     build: ./backend
+    # 웹 서버 뒤로 숨으므로 가동 명령어를 원래대로 유지하거나, 실서비스용 gunicorn으로 바꾸어도 됩니다.
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./backend:/app
-    ports:
-      - "8000:8000"
     environment:
       - POSTGRES_DB=lotto_db
       - POSTGRES_USER=lotto_user
       - POSTGRES_PASSWORD=lotto_password
     depends_on:
       - db
+
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./backend/static:/app/static
+    ports:
+      - "80:80"    # ◀ 이제 사용자는 포트번호 없이 http://localhost 로 접속합니다.
+    depends_on:
+      - web
 
 volumes:
   postgres_data:

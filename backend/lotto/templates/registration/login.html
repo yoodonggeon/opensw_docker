@@ -1,16 +1,38 @@
-<!-- backend/lotto/templates/registration/login.html -->
 {% extends 'base.html' %}
 {% block content %}
-<div class="card shadow-sm mx-auto" style="max-width: 400px;">
-    <div class="card-body">
-        <h3 class="card-title text-center mb-4">로그인</h3>
-        <form method="post">
-            {% csrf_token %}
-            <div class="mb-3">
-                {{ form.as_p }}
+<div class="row pt-5">
+    <div class="col-md-4 mx-auto">
+        <div class="card shadow">
+            <div class="card-body p-4">
+                <h3 class="card-title text-center mb-4">🔐 로그인을 해주세요</h3>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    {% if form.errors %}
+                        <div class="alert alert-danger p-2 small">
+                            아이디 또는 비밀번호가 올바르지 않습니다.
+                        </div>
+                    {% endif %}
+
+                    <div class="mb-3">
+                        <label for="id_username" class="form-label">사용자 아이디</label>
+                        <input type="text" name="username" autofocus maxlength="150" required id="id_username" class="form-control" placeholder="아이디 입력">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="id_password" class="form-label">비밀번호</label>
+                        <input type="password" name="password" required id="id_password" class="form-control" placeholder="비밀번호 입력">
+                    </div>
+
+                    <button type="submit" class="btn btn-dark w-100 py-2">로그인하기</button>
+                </form>
+                
+                <div class="text-center mt-3">
+                    <small class="text-muted">아직 계정이 없으신가요? <a href="{% url 'lotto:signup' %}">회원가입</a></small>
+                </div>
             </div>
-            <button type="submit" class="btn btn-dark w-100">로그인하기</button>
-        </form>
+        </div>
     </div>
 </div>
 {% endblock %}

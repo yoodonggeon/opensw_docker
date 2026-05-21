@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -127,3 +127,15 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# 로그인 성공 시 이동할 페이지 (루트 페이지)
+LOGIN_REDIRECT_URL = 'lotto:index'
+
+# 로그아웃 시 이동할 페이지 (루트 페이지)
+LOGOUT_REDIRECT_URL = 'lotto:index'
+
+# 로그인 페이지 주소 지정
+LOGIN_URL = 'lotto:login'
+
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
