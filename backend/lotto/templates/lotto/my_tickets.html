@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card shadow-sm">
+    <div class="card-header bg-dark text-white">
+        <h4 class="mb-0">🎫 나의 복권 구매 내역</h4>
+    </div>
+    <div class="card-body">
+        {% if tickets %}
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>구매 일시</th>
+                            <th>회차</th>
+                            <th>선택 번호</th>
+                            <th>구분</th>
+                            <th>결과</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ticket in tickets %}
+                        <tr>
+                            <td>{{ ticket.purchase_date|date:"Y-m-d H:i" }}</td>
+                            <td>{{ ticket.round.round_number }}회</td>
+                            <td>
+                                {% for num in ticket.numbers.split %}
+                                    <!-- 보기 좋게 콤마를 파싱하여 숫자로 출력 -->
+                                {% endfor %}
+                                <span class="badge bg-secondary fs-6">{{ ticket.numbers }}</span>
+                            </td>
+                            <td>
+                                {% if ticket.is_auto %}
+                                    <span class="badge bg-success">자동</span>
+                                {% else %}
+                                    <span class="badge bg-primary">수동</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if ticket.rank is None %}
+                                    <span class="text-muted">추첨 대기중</span>
+                                {% elif ticket.rank == 0 %}
+                                    <span class="text-danger">낙첨</span>
+                                {% else %}
+                                    <span class="badge bg-danger fs-6">{{ ticket.rank }}등 당첨! 🎉</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="text-center text-muted py-4">구매한 복권 내역이 없습니다.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+<!-- backend/lotto/templates/registration/login.html -->
+{% extends 'base.html' %}
+{% block content %}
+<div class="card shadow-sm mx-auto" style="max-width: 400px;">
+    <div class="card-body">
+        <h3 class="card-title text-center mb-4">로그인</h3>
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                {{ form.as_p }}
+            </div>
+            <button type="submit" class="btn btn-dark w-100">로그인하기</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
